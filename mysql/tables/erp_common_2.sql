@@ -7,9 +7,9 @@
 
 create table erp_units 
 (
-	id int not null comment 'unit id',
-	client_id int not null comment 'fk, erp_clients.id',
-	dimension_id int not null comment 'fk erp_dimensions.id',
+	id int unsigned not null comment 'unit id',
+	client_id int unsigned not null comment 'fk, erp_clients.id',
+	dimension_id int unsigned not null comment 'fk erp_dimensions.id',
 	name varchar(100) not null,
 	symbol varchar(20) not null,
 	primary key (id),

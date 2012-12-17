@@ -6,9 +6,10 @@
 
 create table erp_clients
 (
-	id int not null auto_increment comment 'pk, client_id',
+	id int unsigned not null auto_increment comment 'pk, client_id',
 	name varchar(200) not null,
-	currency_id int not null comment 'default currency, fk erp_currencies.id',
+	currency_id int unsigned not null comment 'default currency, fk erp_currencies.id',
+	active enum('true','false') not null,
 	created datetime not null,
 	primary key (id),
 	unique key (name),
@@ -20,8 +21,8 @@ comment 'table of clients';
 
 create table erp_orgs
 (
-	id int not null auto_increment comment 'pk organization id',
-	client_id int not null comment 'fk erp_clients.id',
+	id int unsigned not null auto_increment comment 'pk organization id',
+	client_id int unsigned not null comment 'fk erp_clients.id',
 	name varchar(200) not null,
 	primary key (id),
 	unique key (name),
@@ -33,8 +34,8 @@ comment 'organizations';
 
 create table erp_orgs_tree
 (
-	client_id int not null comment 'fk, erp_clients.id',
-	org_id int not null comment 'fk erp_orgs.id',
+	client_id int unsigned not null comment 'fk, erp_clients.id',
+	org_id int not unsigned null comment 'fk erp_orgs.id',
 	parent_org_id int not null comment 'fk erp_orgs.id',
 	primary key(org_id, parent_org_id),
 	constraint fk_erp_orgs_tree_1 foreign key (client_id) references erp_clients(id),

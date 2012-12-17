@@ -1,3 +1,8 @@
+/**
+ * erp clients functions and procedures
+ * requires:
+ */
+
 delimiter //
 
 create function sp_client_add

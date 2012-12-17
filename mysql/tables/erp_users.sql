@@ -6,8 +6,8 @@
 
 create table erp_users
 (
-	id int not null auto_increment comment 'user id',
-	client_id int not null comment 'fk erp_clients.id',
+	id int unsigned not null auto_increment comment 'user id',
+	client_id int unsigned not null comment 'fk erp_clients.id',
 	user_name varchar(100) not null,
 	full_name varchar(500) not null,
 	created datetime not null,
