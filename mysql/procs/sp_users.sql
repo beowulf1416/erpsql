@@ -6,14 +6,17 @@
 
 delimiter //
 
+drop function if exists sp_user_add;
 create function sp_user_add
 (
-	p_client_id int unsigned
-	p_uname varchar,
-	p_fname varchar
+	p_client_id int unsigned,
+	p_uname varchar(100),
+	p_fname varchar(500)
 )
-	returns int unsigned
+	returns int
+	comment 'add a user'
 	language sql
+	not deterministic
 	modifies sql data
 begin
 	insert into erp_users
@@ -25,3 +28,5 @@ begin
 end;
 /* sp_user_add */
 //
+
+delimiter ;

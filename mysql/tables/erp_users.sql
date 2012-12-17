@@ -11,6 +11,7 @@ create table erp_users
 	user_name varchar(100) not null,
 	full_name varchar(500) not null,
 	created datetime not null,
+	active tinyint unsigned not null default 0 comment '0 = active otherwise inactive',
 	primary key (id),
 	unique key (user_name),
 	constraint fk_erp_users foreign key (client_id) references erp_clients(id)
