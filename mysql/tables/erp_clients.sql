@@ -30,3 +30,17 @@ create table erp_orgs
 engine innodb
 default character set utf8
 comment 'organizations';
+
+create table erp_orgs_tree
+(
+	client_id int not null comment 'fk, erp_clients.id',
+	org_id int not null comment 'fk erp_orgs.id',
+	parent_org_id int not null comment 'fk erp_orgs.id',
+	primary key(org_id, parent_org_id),
+	constraint fk_erp_orgs_tree_1 foreign key (client_id) references erp_clients(id),
+	constraint fk_erp_orgs_tree_2 foreign key (org_id) references erp_orgs(id),
+	constraint fk_erp_orgs_tree_3 foreign key (parent_org_id) references erp_orgs(id)
+)
+engine innodb
+default character set utf8
+comment 'organizational tree';

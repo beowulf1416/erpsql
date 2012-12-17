@@ -71,3 +71,32 @@ create table erp_inv_item_substitutes
 engine innodb
 default character set utf8
 comment 'item substitutes';
+
+create table erp_inv_trans
+(
+	id int not null auto_increment comment 'pk transaction id',
+	client_id int not null comment 'fk erp_clients.id',
+	title varchar(100) not null,
+	description text,
+	created datetime not null,
+	primary key (id),
+	constraint fk_erp_inv_trans_1 foreign key (client_id) references erp_clients(id)
+)
+engine innodb
+default character set utf8
+comment 'inventory transactions';
+
+create table erp_inv_tran_items
+(
+	tran_id int not null comment 'fk erp_inv_trans.id',
+	client_id int not null comment 'fk erp_clients.id',
+	item_id int not null comment 'fk erp_inv_items.id',
+	unit_id int not null comment 'fk erp_inv_units.id',
+	constraint fk_erp_inv_tran_items_1 foreign key (tran_id) references erp_inv_trans(id),
+	constraint fk_erp_inv_tran_items_2 foreign key (client_id) references erp_clients(id),
+	constraint fk_erp_inv_tran_items_3 foreign key (item_id) references erp_inv_items(id),
+	constraint fk_erp_inv_tran_items_4 foreign key (unit_id) references erp_units(id)
+)
+engine innodb
+default character set utf8
+comment 'inventory transaction items';
