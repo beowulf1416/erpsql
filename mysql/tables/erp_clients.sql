@@ -35,9 +35,11 @@ comment 'organizations';
 create table erp_orgs_tree
 (
 	client_id int unsigned not null comment 'fk, erp_clients.id',
-	org_id int not unsigned null comment 'fk erp_orgs.id',
-	parent_org_id int not null comment 'fk erp_orgs.id',
+	org_id int unsigned not null comment 'fk erp_orgs.id',
+	parent_org_id int unsigned not null comment 'fk erp_orgs.id',
 	primary key(org_id, parent_org_id),
+	index idx_erp_orgs_tree_1 (org_id),
+	index idx_erp_orgs_tree_2 (parent_org_id),
 	constraint fk_erp_orgs_tree_1 foreign key (client_id) references erp_clients(id),
 	constraint fk_erp_orgs_tree_2 foreign key (org_id) references erp_orgs(id),
 	constraint fk_erp_orgs_tree_3 foreign key (parent_org_id) references erp_orgs(id)
