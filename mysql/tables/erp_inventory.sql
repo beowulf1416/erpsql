@@ -59,3 +59,15 @@ create table erp_inv_item_balances
 engine innodb
 default character set utf8
 comment 'item balances';
+
+create table erp_inv_item_substitutes
+(
+	item_id int not null comment 'fk erp_inv_items.id',
+	substitute_id int not null comment 'fk erp_inv_items.id'
+	primary key (item_id, substitute_id),
+	constraint fk_erp_inv_item_substitutes_1 foreign key (item_id) references erp_inv_items(id),
+	constraint fk_erp_inv_item_substitutes_2 foreign key (substitute_id) references erp_inv_items(id)
+)
+engine innodb
+default character set utf8
+comment 'item substitutes';
