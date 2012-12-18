@@ -25,6 +25,7 @@ create table erp_roles
 	id int unsigned not null auto_increment comment 'role id',
 	client_id int unsigned not null comment 'fk erp_clients.id',
 	name varchar(100) not null,
+	active tinyint not null default 0 comment '0 - active otherwise inactive',
 	primary key (id),
 	unique key (client_id, name),
 	constraint fk_erp_roles_1 foreign key (client_id) references erp_clients(id)
@@ -37,6 +38,7 @@ create table erp_permissions
 (
 	id int unsigned not null auto_increment comment 'permission id',
 	name varchar(200),
+	active tinyint not null default 0 comment '0 - active otherwise inactive',
 	primary key (id),
 	unique key (name)
 )

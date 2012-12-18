@@ -9,7 +9,7 @@ create table erp_clients
 	id int unsigned not null auto_increment comment 'pk, client_id',
 	name varchar(200) not null,
 	currency_id int unsigned not null comment 'default currency, fk erp_currencies.id',
-	active enum('true','false') not null,
+	active tinyint not null default 0 comment '0 - active otherwise inactive',
 	created datetime not null,
 	primary key (id),
 	unique key (name),
