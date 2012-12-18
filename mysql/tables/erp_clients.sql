@@ -13,7 +13,7 @@ create table erp_clients
 	created datetime not null,
 	primary key (id),
 	unique key (name),
-	constraint fk_erp_clients_1 foreign key (currency_id) references erp_clients(id)
+	constraint fk_erp_clients_1 foreign key (currency_id) references erp_currencies(id)
 )
 engine innodb
 default character set utf8

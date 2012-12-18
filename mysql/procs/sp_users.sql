@@ -6,8 +6,8 @@
 
 delimiter //
 
-drop function if exists sp_user_add;
-create function sp_user_add
+drop function if exists erp_user_add;
+create function erp_user_add
 (
 	p_client_id int unsigned,
 	p_uname varchar(100),
@@ -32,11 +32,11 @@ begin
 	
 	return last_insert_id();
 end;
-/* sp_user_add */
+/* erp_user_add */
 //
 
-drop procedure if exists sp_user_active;
-create procedure sp_user_active
+drop procedure if exists erp_user_active;
+create procedure erp_user_active
 (
 	in p_user_id int unsigned,
 	in p_active tinyint
@@ -50,11 +50,11 @@ begin
 	active = p_active
 	where id = p_user_id;
 end ;
-/* sp_user_active */
+/* erp_user_active */
 //
 
-drop function if exists sp_role_add;
-create function sp_role_add
+drop function if exists erp_role_add;
+create function erp_role_add
 (
 	p_client_id int unsigned,
 	p_name varchar(100)
@@ -78,11 +78,11 @@ begin
 	
 	return last_insert_id();
 end ;
-/* sp_role_add */
+/* erp_role_add */
 //
 
-drop procedure if exists sp_role_active;
-create procedure sp_role_active
+drop procedure if exists erp_role_active;
+create procedure erp_role_active
 (
 	in p_role_id int unsigned,
 	in p_active tinyint
@@ -96,11 +96,11 @@ begin
 	active = p_active
 	where id = p_role_id;
 end ;
-/* sp_role_active */
+/* erp_role_active */
 //
 
-drop function if exists sp_permission_add;
-create function sp_permission_add
+drop function if exists erp_permission_add;
+create function erp_permission_add
 (
 	p_name varchar(200)
 )
@@ -117,11 +117,11 @@ begin
 	
 	return last_insert_id();
 end ;
-/* sp_permission_add */
+/* erp_permission_add */
 //
 
-drop procedure if exists sp_user_role_add;
-create procedure sp_user_role_add
+drop procedure if exists erp_user_role_add;
+create procedure erp_user_role_add
 (
 	in p_user_id int unsigned,
 	in p_role_id int unsigned
@@ -136,11 +136,11 @@ begin
 	values
 	( p_user_id, p_role_id );
 end ;
-/* sp_user_role_add */
+/* erp_user_role_add */
 //
 
-drop procedure if exists sp_user_role_remove;
-create procedure sp_user_role_remove
+drop procedure if exists erp_user_role_remove;
+create procedure erp_user_role_remove
 (
 	in p_user_id int unsigned,
 	in p_role_id int unsigned
@@ -154,11 +154,11 @@ begin
 	where user_id = p_user_id
 		and role_id = p_role_id;
 end ;
-/* sp_user_role_remove */
+/* erp_user_role_remove */
 //
 
-drop procedure if exists sp_role_perm_add;
-create procedure sp_role_perm_add
+drop procedure if exists erp_role_perm_add;
+create procedure erp_role_perm_add
 (
 	in p_role_id int unsigned,
 	in p_perm_id int unsigned
@@ -173,11 +173,11 @@ begin
 	values
 	( p_role_id, p_perm_id );
 end ;
-/* sp_role_perm_add */
+/* erp_role_perm_add */
 //
 
-drop procedure if exists sp_role_perm_remove;
-create procedure sp_role_perm_remove
+drop procedure if exists erp_role_perm_remove;
+create procedure erp_role_perm_remove
 (
 	in p_role_id int unsigned,
 	in p_perm_id int unsigned
@@ -191,11 +191,11 @@ begin
 	where role_id = p_role_id
 		and perm_id = p_perm_id;
 end ;
-/* sp_role_perm_remove */
+/* erp_role_perm_remove */
 //
 
-drop procedure if exists sp_user_perms;
-create procedure sp_user_perms
+drop procedure if exists erp_user_perms;
+create procedure erp_user_perms
 (
 	in p_user_id int unsigned
 )
@@ -206,7 +206,7 @@ create procedure sp_user_perms
 begin
 	
 end ;
-/* sp_user_perms */
+/* erp_user_perms */
 //
 
 
