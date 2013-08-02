@@ -1,0 +1,5 @@
+/**
+ * postgres
+ */
+
+create schema erp;
