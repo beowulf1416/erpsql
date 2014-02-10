@@ -142,15 +142,27 @@ engine innodb
 default character set utf8
 comment 'inventory warehouse storage locators';
 
+create table erp_inv_transaction_types
+(
+	id int unsigned not null auto_increment comment 'pk transaction type id',
+	description varchar(100) not null,
+	constraint pk_erp_inv_tran_types primary key (id)
+)
+engine innodb
+default character set utf8
+comment 'inventory transaction types';
+
 create table erp_inv_trans
 (
 	id int unsigned not null auto_increment comment 'pk transaction id',
 	client_id int unsigned not null comment 'fk erp_clients.id',
+	transaction_type_id int unsigned not null comment 'fk, erp_inv_transaction_types.id',
 	title varchar(100) not null,
 	description text,
 	created datetime not null,
 	primary key (id),
-	constraint fk_erp_inv_trans_1 foreign key (client_id) references erp_clients(id)
+	constraint fk_erp_inv_trans_1 foreign key (client_id) references erp_clients(id),
+	constraint fk_erp_inv_trans_2 foreign key (transaction_type_id) references erp_inv_transaction_types(id)
 )
 engine innodb
 default character set utf8
@@ -162,6 +174,7 @@ create table erp_inv_tran_items
 	client_id int unsigned not null comment 'fk erp_clients.id',
 	item_id int unsigned not null comment 'fk erp_inv_items.id',
 	unit_id int unsigned not null comment 'fk erp_inv_units.id',
+	qty decimal(12,6) not null comment 'quantity',
 	constraint fk_erp_inv_tran_items_1 foreign key (tran_id) references erp_inv_trans(id),
 	constraint fk_erp_inv_tran_items_2 foreign key (client_id) references erp_clients(id),
 	constraint fk_erp_inv_tran_items_3 foreign key (item_id) references erp_inv_items(id),
