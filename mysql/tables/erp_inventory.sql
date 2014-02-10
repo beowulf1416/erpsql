@@ -6,7 +6,8 @@
 
 create table erp_inv_items
 (
-	id int unsigned not null auto_increment comment 'item id',
+	id bigint unsigned not null auto_increment comment 'item id',
+	active tinyint unsiged not null comment 'null = active, 1 = inactive',
 	client_id int unsigned not null comment 'fk erp_clients.id',
 	name varchar(500) not null,
 	description text,
@@ -21,8 +22,8 @@ create table erp_inv_items
 	height int,
 	height_unit_id int unsigned comment 'fk, erp_units.id',
 	created datetime not null,
-	primary key (id),
-	unique key (id),
+	constraint pk_inv_items primary key (id),
+	constraint u_inv_items_1 unique key (client_id, name),
 	constraint fk_erp_inv_items_1 foreign key (client_id) references erp_clients(id),
 	constraint fk_erp_inv_items_2 foreign key (dimension_id) references erp_dimensions(id),
 	constraint fk_erp_inv_items_3 foreign key (unit_id) references erp_units(id),
@@ -34,7 +35,7 @@ comment 'inventory items';
 
 create table erp_inv_item_units
 (
-	item_id int unsigned not null comment 'fk, erp_inv_items.id',
+	item_id bigint unsigned not null comment 'fk, erp_inv_items.id',
 	client_id int unsigned not null comment 'fk erp_clients.id',
 	from_unit_id int unsigned not null comment 'fk erp_units.id',
 	to_unit_id int unsigned not null comment 'fk erp_units.id',
@@ -51,7 +52,7 @@ comment 'inventory item units and conversion factors';
 
 create table erp_inv_item_balances
 (
-	item_id int unsigned not null comment 'fk, erp_inv_items.id',
+	item_id bigint unsigned not null comment 'fk, erp_inv_items.id',
 	balance decimal(10, 5) not null default 0,
 	primary key (item_id),
 	constraint fk_erp_inv_item_balances_1 foreign key (item_id) references erp_inv_items(id)
@@ -62,7 +63,7 @@ comment 'item balances';
 
 create table erp_inv_item_substitutes
 (
-	item_id int unsigned not null comment 'fk erp_inv_items.id',
+	item_id bigint unsigned not null comment 'fk erp_inv_items.id',
 	substitute_id int unsigned  not null comment 'fk erp_inv_items.id'
 	primary key (item_id, substitute_id),
 	constraint fk_erp_inv_item_substitutes_1 foreign key (item_id) references erp_inv_items(id),
@@ -74,12 +75,72 @@ comment 'item substitutes';
 
 create table erp_inv_item_components
 (
-	item_id int unsigned not null comment 'fk erp_inv_items.id',
+	item_id bigint unsigned not null comment 'fk erp_inv_items.id',
 	component_id int unsigned not null comment 'fk erp_inv_items.id',
 )
 engine innodb
 default character set utf8
 comment 'item components';
+
+create table erp_inv_warehouses
+(
+	id int unsigned not null auto_increment comment 'pk, warehouse id',
+	active tinyint unsigned comment 'null = active, 1 = inactive',
+	client_id int unsigned not null comment 'fk, erp_clients.id',
+	name varchar(100) not null comment 'warehouse name',
+	constraint pk_inv_warehouses primary key (id),
+	constraint u_inv_warehouses_1 unique key (client_id, active, name),
+	constraint pk_inv_warehouses_1 foreign key (client_id) references erp_clients(id)
+)
+engine innodb
+default character set utf8
+comment 'inventory warehouses';
+
+create table erp_inv_wh_labels
+(
+	id bigint unsigned not null auto_increment comment 'pk, locator label id',
+	active tinyint unsigned comment 'null = active, 1 = inactive',
+	client_id int unsigned not null comment 'fk, erp_clients.id',
+	name varchar(50) not null comment 'label name',
+	constraint pk_inv_wh_labels primary key (id),
+	constraint u_inv_wh_labels_1 unique key (client_id, active, name),
+	constraint fk_inv_wh_labels_1 foreign key (client_id) references erp_clients(id)
+)
+engine innodb
+default character set utf8
+comment 'inventory warehose storage locations label';
+
+create table erp_inv_wh_locations
+(
+	id bigint unsigned not null auto_increment comment 'pk, location id',
+	active tinyint unsigned comment 'null = active, 1 = inactive',
+	client_id int unsigned not null comment 'fk, erp_clients.id',
+	name varchar(100) not null comment 'location name',
+	constraint pk_inv_wh_locations primary key (id),
+	constraint u_inv_wh_locations unique key (client_id, active, name),
+	constraint fk_inv_wh_locations_1 foreign key (client_id) references erp_clients(id)
+)
+engine innodb
+default character set utf8
+comment 'inventory warehouse storage locations';
+
+create table erp_inv_wh_locators
+(
+	id bigint unsigned not null auto_increment comment 'pk, locator id',
+	active tinyint unsigned comment 'null = active, 1 = inactive',
+	client_id int unsigned not null comment 'fk, erp_clients.id',
+	warehouse_id int unsigned not null comment 'fk, warehouse id',
+	label_id unsigned not null comment 'fk, label id',
+	label varchar(100) not null comment 'value',
+	constraint pk_inv_wh_locators primary key (id),
+	constraint u_inv_wh_locators unique key (client_id, active, warehouse_id, label_id, label),
+	constraint fk_inv_wh_locators_1 foreign key (client_id) references erp_clients(id),
+	constraint fk_inv_wh_locators_2 foreign key (warehouse_id) references erp_inv_warehouses(id),
+	constraint fk_inv_wh_locators_3 foreign key (label_id) references erp_inv_wh_labels(id)
+)
+engine innodb
+default character set utf8
+comment 'inventory warehouse storage locators';
 
 create table erp_inv_trans
 (
@@ -109,3 +170,15 @@ create table erp_inv_tran_items
 engine innodb
 default character set utf8
 comment 'inventory transaction items';
+
+create table erp_inv_tran_in
+(
+	id bigint unsigned not null comment 'pk',
+	tran_id int unsigned not null comment 'fk erp_inv_tran_in',
+	
+	constraint pk_inv_tran_in primary key (id),
+	constraint fk_inv_tran_in_1 foreign key (tran_id) references erp_inv_trans(id)
+)
+engine innodb
+default character set utf8
+comment 'inventory transaction items in'
