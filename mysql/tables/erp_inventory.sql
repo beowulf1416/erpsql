@@ -172,7 +172,7 @@ create table erp_inv_tran_items
 (
 	tran_id int unsigned not null comment 'fk erp_inv_trans.id',
 	client_id int unsigned not null comment 'fk erp_clients.id',
-	item_id int unsigned not null comment 'fk erp_inv_items.id',
+	item_id bigint unsigned not null comment 'fk erp_inv_items.id',
 	unit_id int unsigned not null comment 'fk erp_inv_units.id',
 	qty decimal(12,6) not null comment 'quantity',
 	constraint fk_erp_inv_tran_items_1 foreign key (tran_id) references erp_inv_trans(id),
@@ -188,9 +188,12 @@ create table erp_inv_tran_in
 (
 	id bigint unsigned not null comment 'pk',
 	tran_id int unsigned not null comment 'fk erp_inv_tran_in',
-	
+	item_id bigint unsigned not null comment 'fk, erp_inv_items.id',
+	client_id int unsigned not null comment 'fk, erp_clients.id',
+	expire_ts datetime null comment 'expire date if perishable',
 	constraint pk_inv_tran_in primary key (id),
-	constraint fk_inv_tran_in_1 foreign key (tran_id) references erp_inv_trans(id)
+	constraint fk_inv_tran_in_1 foreign key (tran_id) references erp_inv_trans(id),
+	constraint fk_inv_tran_in_2 foreign key ()
 )
 engine innodb
 default character set utf8
