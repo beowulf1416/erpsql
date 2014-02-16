@@ -2,6 +2,7 @@
  * erp hr tables
  * requires:
  * 	erp_clients
+ *  erp_bp
  * 	erp_users
  */
 
