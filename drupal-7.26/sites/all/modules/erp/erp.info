@@ -1,0 +1,7 @@
+name = ERP
+description = "Enterprise Resource Planning"
+package = erp
+version = 7.x-1.0
+core = 7.x
+
+configure = admin/config/erp

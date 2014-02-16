@@ -1,0 +1,58 @@
+<?php
+use erp\ERP;
+
+function erp_get_instance(){
+	// setup variables
+	if(!defined("ERP_CONF_LOADED")){
+		if(file_exists(DRUPAL_ROOT . "/" . conf_path() . "/erp.settings.php")){
+			$conf = array();
+			include_once(DRUPAL_ROOT . "/" . conf_path() . "/erp.settings.php");
+			
+			
+		}
+
+		$instance = ERP::get_instance();
+		$instance->set_connection(Database::getConnection("erp"));
+		
+		
+		define("ERP_CONF_LOADED", true);
+	}
+	
+	return ERP::get_instance();
+}
+
+function erp_permission(){
+	return array(
+		"administer erp settings"=>array(
+			"title"=>t("Administer ERP settings"),
+			"description"=>t("Allow user to administer erp settings")
+		)
+	);
+}
+
+function erp_menu(){
+	$items = array();
+	
+	$items["admin/config/erp"] = array(
+		"title"=>"Enterprise Resource Planning",
+		"page callback"=>"drupal_get_form",
+		"page arguments"=>array("erp_settings_form"),
+		"access arguments"=>array("administer erp settings"),
+		"file"=>"erp.pages.inc",
+		"type"=>MENU_NORMAL_ITEM,
+		"position"=>"left"
+	);
+	
+	$items["admin/config/erp/settings"] = array(
+		"title"=>"Enterprise Resource Planning",
+		"page callback"=>"drupal_get_form",
+		"page arguments"=>array("erp_settings_form"),
+		"access arguments"=>array("administer erp settings"),
+		"file"=>"erp.pages.inc",
+		"type"=>MENU_NORMAL_ITEM,
+		"position"=>"left",
+		"weight"=>-20
+	);
+	
+	return $items;
+}

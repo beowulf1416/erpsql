@@ -1,0 +1,10 @@
+<?php
+function bp_permission(){
+	return array();
+}
+
+function bp_menu(){
+	$items = array();
+	
+	return $items;
+}

@@ -1,0 +1,37 @@
+<?php
+function clients_permission(){
+	return array(
+		"view client"=>array(
+			"title"=>t("View client"),
+			"description"=>t("Allow user to view client information")
+		),
+		"manage client"=>array(
+			"title"=>t("Manage client"),
+			"description"=>t("Allow user to manage client information")
+		)
+	);
+}
+
+function clients_menu(){
+	$items = array();
+	
+	$items["admin/config/erp/client"] = array(
+		"title"=>"Clients",
+		"page callback"=>"drupal_get_form",
+		"page arguments"=>array("clients_settings_form"),
+		"access arguments"=>array("administer erp settings"),
+		"file"=>"clients.pages.inc",
+		"type"=>MENU_NORMAL_ITEM,
+	);
+	
+	$items["erp/client/add"] = array(
+		"title"=>"Add Client",
+		"page callback"=>"drupal_get_form",
+		"page arguments"=>array("clients_form"),
+		"access arguments"=>array("manage client"),
+		"file"=>"clients.pages.inc",
+		"type"=>MENU_NORMAL_ITEM
+	);
+	
+	return $items;
+}
